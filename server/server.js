@@ -29,13 +29,13 @@ io.on('connection', (socket) => {   //check server side if there is a connection
     socket.broadcast.emit('newMsg', generateMessage('Admin','New user joined'))
 
     //Get email da client side
-    socket.on('createMsg', (msg) => {
+    socket.on('createMsg', (msg, callback) => {
         //add created time
          
         console.log('Created Message: ', msg)
         // Take from client, and send data da server side to all other tabs
         io.emit('newMsg', generateMessage(msg.from,msg.text))
-
+        callback('This is an acknowledgment from server') //acknowledgment
         // socket.broadcast.emit('newMsg', {
         //     from: msg.from,
         //     text: msg.text,
