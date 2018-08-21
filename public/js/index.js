@@ -11,6 +11,7 @@ socket.on('connect', function () {
     //     from: 'email@gmail.it',
     //     text:'Dal client'
     // })
+
 })
 
 socket.on('disconnect' , function () {
@@ -22,7 +23,7 @@ socket.on('disconnect' , function () {
     // newEmail -> first argument
     // function(emited_data){} -> second argument
 
-socket.on('newMsg', (msg) => {
+socket.on('newMsg', function (msg) {
     console.log('newMsg', msg)
 })
 

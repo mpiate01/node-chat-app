@@ -21,19 +21,35 @@ io.on('connection', (socket) => {   //check server side if there is a connection
     //register an event listener
     console.log('New user connected')
 
+    //Welcome msg
+    socket.emit('newMsg', {
+        from:'Admin',
+        text:'Welcome to the chat app',
+        createdAt: new Date().getTime()
+    })
+    //New user joined msg
+    socket.broadcast.emit('newMsg', {
+        from: 'Admin',
+        text: 'New user joined',
+        createdAt: new Date().getTime()
+    })    
 
     //Get email da client side
     socket.on('createMsg', (msg) => {
         //add created time
          
         console.log('Created Message: ', msg)
-
-        //Take from client, and send data da server side to all other tabs
+        // Take from client, and send data da server side to all other tabs
         io.emit('newMsg', {
             from: msg.from,
             text: msg.text,
             createdAt: msg.createdAt = new Date().getTime()
         })
+        // socket.broadcast.emit('newMsg', {
+        //     from: msg.from,
+        //     text: msg.text,
+        //     createdAt: msg.createdAt = new Date().getTime()
+        // })        
     })
 
     //check if a tab has been closed -- server side
