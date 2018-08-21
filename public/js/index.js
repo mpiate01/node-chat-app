@@ -7,10 +7,10 @@ socket.on('connect', function () {
     console.log('Connected to server')
 
     //send email da client side
-    socket.emit('createMsg', {
-        from: 'email@gmail.it',
-        text:'Dal client'
-    })
+    // socket.emit('createMsg', {
+    //     from: 'email@gmail.it',
+    //     text:'Dal client'
+    // })
 })
 
 socket.on('disconnect' , function () {
@@ -22,7 +22,7 @@ socket.on('disconnect' , function () {
     // newEmail -> first argument
     // function(emited_data){} -> second argument
 
-socket.on('newMsg', (newMsg) => {
-    console.log('createEmail', newMsg)
+socket.on('newMsg', (msg) => {
+    console.log('newMsg', msg)
 })
 

@@ -21,20 +21,19 @@ io.on('connection', (socket) => {   //check server side if there is a connection
     //register an event listener
     console.log('New user connected')
 
-    //TO emit events (creating) is similar to a listener
-    //Send data da server side
-
-    socket.emit('newMsg', {
-        from: 'email@gmail.it',
-        text:'Dal server',
-        createdAt: new Date().getTime() 
-    })
 
     //Get email da client side
     socket.on('createMsg', (msg) => {
         //add created time
-        msg.createdAt = new Date().getTime() 
+         
         console.log('Created Message: ', msg)
+
+        //Take from client, and send data da server side to all other tabs
+        io.emit('newMsg', {
+            from: msg.from,
+            text: msg.text,
+            createdAt: msg.createdAt = new Date().getTime()
+        })
     })
 
     //check if a tab has been closed -- server side
