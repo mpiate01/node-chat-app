@@ -3,6 +3,7 @@ const http = require('http')
 const express = require('express')
 const socketIO = require('socket.io')
 
+const {generateMessage} = require('./utils/message')
 const publicPath = path.join(__dirname, '../public')
 const port = process.env.PORT || 3000
 
@@ -22,17 +23,10 @@ io.on('connection', (socket) => {   //check server side if there is a connection
     console.log('New user connected')
 
     //Welcome msg
-    socket.emit('newMsg', {
-        from:'Admin',
-        text:'Welcome to the chat app',
-        createdAt: new Date().getTime()
-    })
+    socket.emit('newMsg', generateMessage('Admin','Welcome to the chat app'))
+
     //New user joined msg
-    socket.broadcast.emit('newMsg', {
-        from: 'Admin',
-        text: 'New user joined',
-        createdAt: new Date().getTime()
-    })    
+    socket.broadcast.emit('newMsg', generateMessage('Admin','New user joined'))
 
     //Get email da client side
     socket.on('createMsg', (msg) => {
@@ -40,11 +34,8 @@ io.on('connection', (socket) => {   //check server side if there is a connection
          
         console.log('Created Message: ', msg)
         // Take from client, and send data da server side to all other tabs
-        io.emit('newMsg', {
-            from: msg.from,
-            text: msg.text,
-            createdAt: msg.createdAt = new Date().getTime()
-        })
+        io.emit('newMsg', generateMessage(msg.from,msg.text))
+
         // socket.broadcast.emit('newMsg', {
         //     from: msg.from,
         //     text: msg.text,
@@ -66,5 +57,6 @@ server.listen(port, () => {
 
 
 
- //newMessage event, server to client   from,text, createdAt
- //createMessage event, client to server   from,text   (createdAt creata dal server per evitare che il client la modifichi)
+module.exports = {
+    app
+}
