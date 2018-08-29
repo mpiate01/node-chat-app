@@ -35,7 +35,9 @@ io.on('connection', (socket) => {   //check server side if there is a connection
         console.log('Created Message: ', msg)
         // Take from client, and send data da server side to all other tabs
         io.emit('newMsg', generateMessage(msg.from,msg.text))
-        callback('This is an acknowledgment from server') //acknowledgment
+        //callback('This is an acknowledgment from server') acknowledgment
+        callback()
+
     })
 
     socket.on('createLocationMsg', (coords) => {
