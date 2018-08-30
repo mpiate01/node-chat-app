@@ -2,6 +2,23 @@
 // and keep connection open
 const socket = io();
 
+function scrollToBottom () {
+    //Selectors
+    var messages = $('#messages');
+    var newMsg = messages.children('li:last-child')
+    //Heights
+    var clientHeight = messages.prop('clientHeight');  //add property
+    var scrollTop = messages.prop('scrollTop');
+    var scrollHeight = messages.prop('scrollHeight');
+    var newMsgHeight = newMsg.innerHeight();
+    var lastMsgHeight = newMsg.prev().innerHeight()
+
+    if (clientHeight + scrollTop + newMsgHeight + lastMsgHeight >= scrollHeight) {
+        //should scroll
+        console.log('should scroll')
+    }
+}
+
 //Check on client side if there is a connection
 socket.on('connect', function () {
     console.log('Connected to server');
@@ -25,7 +42,9 @@ socket.on('newMsg', function (msg) {
         createdAt: formattedTime
     });
     $('#messages').append(html);
+    scrollToBottom ();
     
+    //without mustache template
     // console.log('newMsg', msg);
     // var formattedTime = moment(msg.createdAt).format('h:mm a');
     // var li = $('<li></li>');
@@ -44,6 +63,7 @@ socket.on('newLocationMsg', function (msg) {
         url: msg.url
     });
     $('#messages').append(html);
+    scrollToBottom ();
 
     // var li = $('<li></li>');
     // var a = $(`<a target="_blank">My current location</a>`);
